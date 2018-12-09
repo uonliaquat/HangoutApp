@@ -1,5 +1,6 @@
 package com.example.uonliaquatarain.hangoutapp;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,14 +9,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.NotificationTarget;
 
 import java.util.List;
 
@@ -52,19 +65,29 @@ public class CustomNotification  {
         }
     }
 
-    public void notifyThis(List<String> sender_information, String method) {
+    public void notifyThis(final List<String> sender_information, String method) {
         String message = "";
+        Intent intent = new Intent(context, UserProfile.class);
         if(method == Constatnts.FRIEND_REQUEST) {
             message = sender_information.get(0) + " has sent you Friend Request!";
+            intent.putExtra("sender_name", sender_information.get(0));
+            intent.putExtra("sender_username", sender_information.get(1));
+            intent.putExtra("sender_pic_url", sender_information.get(2));
+            intent.putExtra(Constatnts.FRIEND_REQUEST, Constatnts.FRIEND_REQUEST);
         }
         else if(method == Constatnts.FRIEND_REQUEST_ACCEPTED){
             message = sender_information.get(0) + " has accepted you Friend Request!";
+            intent.putExtra("sender_name", sender_information.get(0));
+            intent.putExtra("sender_username", sender_information.get(1));
+            intent.putExtra("sender_pic_url", sender_information.get(2));
+            intent.putExtra(Constatnts.FRIEND_REQUEST, Constatnts.FRIEND_REQUEST);
         }
-        Intent intent = new Intent(context, UserProfile.class);
-        intent.putExtra("sender_name", sender_information.get(0));
-        intent.putExtra("sender_username", sender_information.get(1));
-        intent.putExtra("sender_pic_url", sender_information.get(2));
-        intent.putExtra(Constatnts.FRIEND_REQUEST, Constatnts.FRIEND_REQUEST);
+        else if(method == Constatnts.MESSAGE){
+            intent = new Intent(context,ChatUI.class);
+            message = sender_information.get(0) + " has sent you a message!";
+            intent.putExtra("username", sender_information.get(1));
+            intent.putExtra(Constatnts.MESSAGE, Constatnts.MESSAGE);
+        }
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -72,6 +95,26 @@ public class CustomNotification  {
                 R.layout.custom_notification);
         remoteViews.setImageViewResource(R.id.custom_notification_image,R.drawable.defaultpic_icon);
         remoteViews.setTextViewText(R.id.custom_notification_message, message);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+//        View view = inflater.inflate(R.layout.custom_notification, null, false);
+//        final ImageView imageView = (ImageView) view.findViewById(R.id.custom_notification_image);
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                RequestOptions requestOptions = new RequestOptions();
+//                requestOptions.placeholder(R.drawable.defaultpic_icon);
+//                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+//                requestOptions.error(R.drawable.defaultpic_icon);
+//
+//                Glide.with(context)
+//                        .setDefaultRequestOptions(requestOptions)
+//                        .asBitmap()
+//                        .load(sender_information.get(2)).into(imageView);
+//            }
+//        });
+//
+        //Glide.with(context).load(sender_information.get(2)).into(imageView);
 
 //        Intent i = new Intent(context, MainActivity.class) ;
 //        intent.putExtra(Constatnts.FRIEND_REQUEST, "accepted");

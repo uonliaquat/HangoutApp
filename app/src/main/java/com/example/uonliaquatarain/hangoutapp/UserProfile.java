@@ -99,6 +99,7 @@ public class UserProfile extends AppCompatActivity {
                                 in.putExtra("pic_url", sender_pic_url);
                                 LocalBroadcastManager.getInstance(UserProfile.this).sendBroadcast(in);
 
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

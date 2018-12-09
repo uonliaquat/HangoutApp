@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,6 +133,7 @@ public class GetResponse extends Service {
                 msg = msg + chars[i];
             }
         }
+        list.add(msg);
         return list;
     }
 
@@ -156,6 +158,16 @@ public class GetResponse extends Service {
 //                in.putExtra("name", sender_information.get(0));
 //                in.putExtra("username", sender_information.get(1));
 //                in.putExtra("pic_url", sender_information.get(2));
+            }
+            else if((sender_information.get(3).equals(Constatnts.MESSAGE))){
+                CustomNotification customNotification = new CustomNotification(getApplicationContext());
+                customNotification.notifyThis(sender_information, Constatnts.MESSAGE);
+                String _msg = sender_information.get(4);
+                FileHandling.SaveMessage(getApplicationContext(), sender_information.get(1), _msg ,false);
+                ResponseMessage responseMessage = new ResponseMessage(_msg, false);
+                ChatUI.responseMessageList.add(responseMessage);
+                ChatUI.messageAdapter.notifyDataSetChanged();
+
             }
         }
 

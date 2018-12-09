@@ -50,6 +50,11 @@ public class SendRequest extends AsyncTask<String, Void, Void> {
             else if(method == Constatnts.GET_ALL_USERS){
                 jsonObject.put("username", voids[1]);
             }
+            else if(method == Constatnts.MESSAGE){
+                jsonObject.put("username", voids[1]);
+                jsonObject.put("username_receiver", voids[2]);
+                jsonObject.put("message", voids[3]);
+            }
 
 
             socket = new Socket(SERVER_IP, SERVER_PORT);

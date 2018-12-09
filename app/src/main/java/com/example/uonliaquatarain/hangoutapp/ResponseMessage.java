@@ -3,7 +3,7 @@ package com.example.uonliaquatarain.hangoutapp;
 public class ResponseMessage {
 
     String textMessage;
-    Boolean isMe;
+    Boolean isMe = true;
 
     public ResponseMessage(String textMessage, Boolean isMe) {
         this.textMessage = textMessage;

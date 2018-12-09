@@ -13,6 +13,6 @@
         android:text="Hi Hello World!"
         android:layout_alignParentStart="true"
         android:background="@drawable/frriend_bubble"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </RelativeLayout>

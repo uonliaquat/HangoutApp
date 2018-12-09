@@ -54,6 +54,7 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, ChatUI.class);
+                intent.putExtra("username", friends.get(viewHolder.getAdapterPosition()).getUSERNAME());
                 context.startActivity(intent);
 
 //                TextView dialog_name = (TextView) dialog.findViewById(R.id.dialog_name_id);
