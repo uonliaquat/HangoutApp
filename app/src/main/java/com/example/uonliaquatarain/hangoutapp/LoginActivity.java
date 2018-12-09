@@ -10,15 +10,20 @@ import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;
-    private Button login_btn;
+    private CardView login_btn;
+    private String str_username;
+    private String str_password;
+    private TextView dontHaveAnAccount;
 
     private static ProgressDialog dialog;
 
@@ -29,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.login_username);
         password = (EditText) findViewById(R.id.login_password);
-        login_btn = (Button) findViewById(R.id.loginBtn);
+        login_btn = (CardView) findViewById(R.id.login_btn);
+        dontHaveAnAccount = (TextView) findViewById(R.id.dontHaveAnAccount);
 
         dialog = new ProgressDialog(this);
 
@@ -39,11 +45,19 @@ public class LoginActivity extends AppCompatActivity {
                 LoginUser();
             }
         });
+
+        dontHaveAnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void LoginUser(){
-        String str_username = username.getText().toString();
-        String str_password = password.getText().toString();
+        str_username = username.getText().toString();
+        str_password = password.getText().toString();
         if(str_username.isEmpty()){
             Toast.makeText(getApplicationContext(),"Enter your username!",Toast.LENGTH_SHORT).show();
             return;
@@ -68,7 +82,10 @@ public class LoginActivity extends AppCompatActivity {
             dialog.dismiss();
             if (result.equals(Constatnts.LOGIN_SUCCESSFUL))
             {
-                Intent intent1 = new Intent(LoginActivity.this, RegisterActivity.class);
+                //Set Data in Local Database
+                Splash.databaseAdapter.set_isActive(str_username, 0);
+                Splash.databaseAdapter.set_isActive(str_username, 1);
+                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent1);
             }
         }

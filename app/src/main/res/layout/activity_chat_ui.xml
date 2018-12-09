@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_chatui_gradient"
+    tools:context=".ChatUI">
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/conversation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/user_input"/>
+
+
+
+
+    <EditText
+        android:imeActionId="4"
+        android:imeOptions="actionSend"
+        android:id="@+id/user_input"
+        android:maxLines="1"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:textSize="20sp"
+        android:inputType="text"
+        android:background="@drawable/bg_edit_text"
+        android:fontFamily="@font/merienda_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        android:hint="Enter text!"
+        android:textColor="#000000"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

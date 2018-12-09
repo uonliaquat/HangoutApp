@@ -11,4 +11,11 @@ public class Constatnts {
     public static String COULD_NOT_LOGIN = "Couldn't Login!";
     public static String USERNAME_DOES_NOT_EXIST = "Username doesn't exist!";
     public static String COULD_NOT_FETCH_ALL_USERS = "Couldn't fetch all users!";
+    public static String SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST";
+    public static String FRIEND_REQUEST = "FRIEND_REQUEST";
+    public static String FRIEND_REQUEST_ACCEPTED = "FRIEND_REQUEST_ACCEPTED";
+    public static String FRIEND_REQUEST_REJECTED = "FRIEND_REQUEST_REJECTED";
+    public static String PING = "PING";
+    public static String SAVE_PROFILE_PIC = "SAVE_PROFILE_PIC";
+    public static String GET_PROFILE_PIC = "GET_PROFILE_PIC";
 }

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Edit Profile"
-        android:id="@+id/edit_profile_id"
+        android:title="View your Profile"
+        android:id="@+id/view_your_profile_id"
         app:showAsAction="never"/>
 
 </menu>
