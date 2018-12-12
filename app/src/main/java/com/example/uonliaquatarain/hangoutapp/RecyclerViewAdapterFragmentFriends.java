@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -19,9 +20,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<RecyclerViewAdapterFragmentFriends.ViewHolderFriend> {
@@ -30,10 +33,14 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
     List<User> friends;
     Dialog dialog;
     private int item_position;
+    public static List<User> selectedFriends;
+    public boolean canSelect;
 
     public RecyclerViewAdapterFragmentFriends(Context context, List<User> friends) {
         this.context = context;
         this.friends = friends;
+        selectedFriends = new ArrayList<>();
+        canSelect = false;
     }
 
 
@@ -53,9 +60,33 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, ChatUI.class);
-                intent.putExtra("username", friends.get(viewHolder.getAdapterPosition()).getUSERNAME());
-                context.startActivity(intent);
+                if(!canSelect) {
+                    Intent intent = new Intent(context, ChatUI.class);
+                    intent.putExtra("username", friends.get(viewHolder.getAdapterPosition()).getUSERNAME());
+                    context.startActivity(intent);
+                }
+                else {
+                    int color = Color.TRANSPARENT;
+                    Drawable background = viewHolder.item_friend.getBackground();
+                    if (background instanceof ColorDrawable) {
+                        color = ((ColorDrawable) background).getColor();
+                    }
+                    if(color== Color.GRAY) {
+                        viewHolder.item_friend.setBackgroundColor(Color.TRANSPARENT);
+                        for(int i = 0; i < selectedFriends.size(); i++){
+                            if(selectedFriends.get(i).getUSERNAME().equals(friends.get(viewHolder.getAdapterPosition()).getUSERNAME())){
+                                selectedFriends.remove(i);
+                                break;
+                            }
+                        }
+                    }
+                    else{
+                        viewHolder.item_friend.setBackgroundColor(Color.GRAY);
+                        selectedFriends.add(new User(friends.get(viewHolder.getAdapterPosition()).getNAME(),
+                                friends.get(viewHolder.getAdapterPosition()).getUSERNAME(),
+                                friends.get(viewHolder.getAdapterPosition()).getPHOTO()));
+                    }
+                }
 
 //                TextView dialog_name = (TextView) dialog.findViewById(R.id.dialog_name_id);
 //                TextView dialog_username = (TextView) dialog.findViewById(R.id.dialog_username_id);
@@ -68,17 +99,6 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
             }
         });
 
-        viewHolder.create_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<String> data  = Splash.databaseAdapter.getData();
-
-                String usernameOfReceiver = friends.get(viewHolder.getAdapterPosition()).getUSERNAME();
-                SendRequest sendRequest = new SendRequest();
-                sendRequest.execute(Constatnts.SEND_FRIEND_REQUEST, data.get(1), usernameOfReceiver, "", Constatnts.FRIEND_REQUEST);
-
-            }
-        });
 
 //        profile_btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -141,12 +161,10 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
         private TextView name;
         private TextView username;
         private ImageView  photo;
-        private Button create_event;
         public ViewHolderFriend(@NonNull View itemView) {
             super(itemView);
 
             item_friend = (LinearLayout) itemView.findViewById(R.id.friend_item_id);
-            create_event = (Button) itemView.findViewById(R.id.event_id);
             name = (TextView) itemView.findViewById(R.id.name_friend);
             username = (TextView) itemView.findViewById(R.id.userName_friend);
             photo = (ImageView) itemView.findViewById(R.id.image_friend);

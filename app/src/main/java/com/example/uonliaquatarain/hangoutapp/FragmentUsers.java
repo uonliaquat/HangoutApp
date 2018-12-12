@@ -31,6 +31,7 @@ public class FragmentUsers extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         users = new ArrayList<>();
+
     }
 
     @Nullable

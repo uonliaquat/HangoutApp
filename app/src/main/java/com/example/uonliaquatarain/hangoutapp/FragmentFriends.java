@@ -15,22 +15,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentFriends extends Fragment {
 
     private View view;
-    private RecyclerView recyclerView;
-    public static List<User> friends;
+    public RecyclerView recyclerView;
+    public  List<User> friends;
 
     public FragmentFriends() {
 
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         friends = new ArrayList<>();
+        if(getArguments() != null){
+            for(int i = 0; i < MainActivity.fragmentFriends.friends.size(); i++) {
+                String name = getArguments().getString(MainActivity.fragmentFriends.friends.get(i).getNAME());
+                String username = getArguments().getString(MainActivity.fragmentFriends.friends.get(i).getUSERNAME());
+                String photo = getArguments().getString(MainActivity.fragmentFriends.friends.get(i).getPHOTO());
+                friends.add(new User(name, username, photo));
+            }
+        }
     }
 
     @Nullable
@@ -49,6 +59,11 @@ public class FragmentFriends extends Fragment {
                 friends.add(new User(name.get(i), username.get(i), photo.get(i)));
             }
             RecyclerViewAdapterFragmentFriends recyclerViewAdapterFragmentFriends = new RecyclerViewAdapterFragmentFriends(getContext(), friends);
+            recyclerView.setAdapter(recyclerViewAdapterFragmentFriends);
+        }
+        if(getArguments() != null) {
+            RecyclerViewAdapterFragmentFriends recyclerViewAdapterFragmentFriends = new RecyclerViewAdapterFragmentFriends(getContext(), friends);
+            recyclerViewAdapterFragmentFriends.canSelect = true;
             recyclerView.setAdapter(recyclerViewAdapterFragmentFriends);
         }
         return view;

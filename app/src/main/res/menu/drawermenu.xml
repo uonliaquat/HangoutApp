@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:title="Profile"
+        android:id="@+id/view_your_profile_id"
+        android:icon="@drawable/ic_boy"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/crreateEvent_id"
+        android:title="Events"
+        android:icon="@drawable/ic_event"/>
+
+
+</menu>

@@ -32,7 +32,7 @@ public class GetResponse extends Service {
     InputStreamReader inputStreamReader;
     BufferedReader bufferedReader;
     Handler handler = new Handler(Looper.getMainLooper());
-    char message[] = new char[4096];
+    String message;
     public static String msg_received;
 
     @Override
@@ -53,16 +53,14 @@ public class GetResponse extends Service {
                 while(true) {
                     try {
                         if (SendRequest.socket != null) {
-                            for(int i = 0; i < 4096; i++) {
-                                message[i] = 0;
-                            }
                             inputStreamReader = new InputStreamReader(SendRequest.socket.getInputStream());
                             bufferedReader = new BufferedReader(inputStreamReader);
-                            if(bufferedReader.ready()) {
-                                bufferedReader.read(message);
+                            message = bufferedReader.readLine();
+                            if(message != null) {
                                 msg_received = parseString(message);
                                 checkMessage(msg_received);
                             }
+                            message = "";
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -79,14 +77,15 @@ public class GetResponse extends Service {
                 while(true){
                     if(SendRequest.socket != null){
                         try {
-                            Thread.sleep(10000);
+                            Thread.sleep(5000);
                             List<String> list = Splash.databaseAdapter.getData();
                             String my_username = list.get(1);
-                            SendRequest.jsonObject.put("method", Constatnts.PING);
-                            SendRequest.jsonObject.put("username", my_username);
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("method", Constatnts.PING);
+                            jsonObject.put("username", my_username);
                             SendRequest.socket = new Socket(SendRequest.SERVER_IP, SendRequest.SERVER_PORT);
                             SendRequest.writer = new PrintWriter(SendRequest.socket.getOutputStream());
-                            SendRequest.writer.write(SendRequest.jsonObject.toString());
+                            SendRequest.writer.write(jsonObject.toString());
                             SendRequest.writer.flush();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -103,16 +102,18 @@ public class GetResponse extends Service {
     }
 
 
-    private String parseString(char[] str){
+    private String parseString(String str){
         String message = "";
+        if(str.charAt(0) == 'P' && str.charAt(1) == 'I' && str.charAt(2) == 'N' && str.charAt(3) == 'G'){
+            return str;
+        }
         boolean check = false;
-        for(int i = 0; i < str.length; i++){
-            if(str[i + 1] == 0){
-                return message;
-            }
-            if(str[i] == ' ' || check == true){
+        for(int i = 0; i < str.length(); i++){
+            if(str.charAt(i) == ' ' && !check){
                 check = true;
-                message = message + str[i + 1];
+            }
+            else if(check){
+                message = message + str.charAt(i);
             }
         }
         return message;
@@ -123,7 +124,12 @@ public class GetResponse extends Service {
         List<String> list = new ArrayList<>();
         String msg = "";
         char[] chars = str.toCharArray();
-        for(int i = 0; i < chars.length; i++) {
+        int check = 0;
+        if(chars[0] == 'P' && chars[1] == 'I' && chars[2] == 'N' && chars[3] == 'G'){
+            list.add("PING");
+            check = 5;
+        }
+        for(int i = check; i < chars.length; i++) {
             if(chars[i] == '/' && chars[i + 1] == '/' && chars[i + 2] == '/'){
                 list.add(msg);
                 msg = "";
@@ -139,15 +145,14 @@ public class GetResponse extends Service {
 
     private void checkMessage(String msg) throws JSONException {
         Intent in = new Intent();
-        if(Constatnts.PING == SendRequest.jsonObject.getString("method")){
-            List<String> sender_information = getMessage(msg_received);
+        List<String> sender_information = getMessage(msg_received);
+        if (Constatnts.PING == sender_information.get(0)) {
             in.setAction(Constatnts.PING);
             in.putExtra(Constatnts.PING, msg_received);
-            if(sender_information.get(3).equals(Constatnts.FRIEND_REQUEST)){
+            if (sender_information.get(4).equals(Constatnts.FRIEND_REQUEST)) {
                 CustomNotification customNotification = new CustomNotification(getApplicationContext());
                 customNotification.notifyThis(sender_information, Constatnts.FRIEND_REQUEST);
-            }
-            else if(sender_information.get(3).equals(Constatnts.FRIEND_REQUEST_ACCEPTED)){
+            } else if (sender_information.get(4).equals(Constatnts.FRIEND_REQUEST_ACCEPTED)) {
                 CustomNotification customNotification = new CustomNotification(getApplicationContext());
                 customNotification.notifyThis(sender_information, Constatnts.FRIEND_REQUEST_ACCEPTED);
 
@@ -158,15 +163,19 @@ public class GetResponse extends Service {
 //                in.putExtra("name", sender_information.get(0));
 //                in.putExtra("username", sender_information.get(1));
 //                in.putExtra("pic_url", sender_information.get(2));
-            }
-            else if((sender_information.get(3).equals(Constatnts.MESSAGE))){
+            } else if ((sender_information.get(4).equals(Constatnts.MESSAGE))) {
                 CustomNotification customNotification = new CustomNotification(getApplicationContext());
                 customNotification.notifyThis(sender_information, Constatnts.MESSAGE);
-                String _msg = sender_information.get(4);
-                FileHandling.SaveMessage(getApplicationContext(), sender_information.get(1), _msg ,false);
+                String _msg = sender_information.get(5);
+                FileHandling.SaveMessage(getApplicationContext(), sender_information.get(2), _msg, false);
                 ResponseMessage responseMessage = new ResponseMessage(_msg, false);
                 ChatUI.responseMessageList.add(responseMessage);
                 ChatUI.messageAdapter.notifyDataSetChanged();
+
+            }
+            else if ((sender_information.get(4).equals(Constatnts.EVENT_REQUEST))) {
+                CustomNotification customNotification = new CustomNotification(getApplicationContext());
+                customNotification.notifyThis(sender_information, Constatnts.EVENT_REQUEST);
 
             }
         }
@@ -237,6 +246,11 @@ public class GetResponse extends Service {
         else if(Constatnts.GET_PROFILE_PIC == SendRequest.jsonObject.getString("method")){
             in.setAction(Constatnts.GET_PROFILE_PIC);
             in.putExtra(Constatnts.GET_PROFILE_PIC, msg_received);
+
+        }
+        else if(Constatnts.EVENT_REQUEST == SendRequest.jsonObject.getString("method")){
+            in.setAction(Constatnts.EVENT_REQUEST);
+            in.putExtra(Constatnts.EVENT_REQUEST, msg_received);
 
         }
 

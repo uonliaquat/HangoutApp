@@ -42,19 +42,19 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:gravity="end"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<LinearLayout-->
+        <!--android:gravity="end"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
 
-        <Button
-            android:id="@+id/event_id"
-            android:layout_gravity="center_vertical"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/ic_event"/>
+        <!--<Button-->
+            <!--android:id="@+id/event_id"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:background="@drawable/ic_event"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </LinearLayout>

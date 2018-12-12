@@ -19,4 +19,5 @@ public class Constatnts {
     public static String SAVE_PROFILE_PIC = "SAVE_PROFILE_PIC";
     public static String GET_PROFILE_PIC = "GET_PROFILE_PIC";
     public static String MESSAGE = "MESSAGE";
+    public static String EVENT_REQUEST= "EVENT_REQUEST";
 }

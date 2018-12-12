@@ -65,6 +65,7 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().hide();
 
         mStorageReference = FirebaseStorage.getInstance().getReference("Profile_Pics");
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Profile_Pics");
@@ -99,11 +100,6 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private String getFileExtension(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
 
     private void UploadPic(){
         if(imageUri != null){
@@ -146,6 +142,12 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
 
 
     @Override
@@ -171,13 +173,6 @@ public class EditProfile extends AppCompatActivity {
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
-    }
-
-    private Bitmap convertImageViewToBitmap(ImageView v){
-
-        Bitmap bm=((BitmapDrawable)v.getDrawable()).getBitmap();
-
-        return bm;
     }
 
 
@@ -218,14 +213,5 @@ public class EditProfile extends AppCompatActivity {
         super.onPause();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        Bitmap bm = convertImageViewToBitmap(imageView);
-//        Intent intent1 = new Intent(EditProfile.this, UserProfile.class);
-//        intent1.putExtra("my_profile", true);
-//        intent1.putExtra("name", name.getText().toString());
-//        intent1.putExtra("photo", bm);
-//        startActivity(intent1);
-    }
+
 }

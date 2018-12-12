@@ -47,6 +47,7 @@ public class UserProfile extends AppCompatActivity {
 
 
 
+
         Intent intent = getIntent();
         name_str = intent.getExtras().getString("name");
         if(intent.hasExtra("sender_name")){
@@ -123,6 +124,9 @@ public class UserProfile extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if(isMyProfile) {
             getMenuInflater().inflate(R.menu.menu, menu);
+        }
+        else{
+            getSupportActionBar().hide();
         }
         return true;
     }
