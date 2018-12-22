@@ -19,5 +19,16 @@ public class Constatnts {
     public static String SAVE_PROFILE_PIC = "SAVE_PROFILE_PIC";
     public static String GET_PROFILE_PIC = "GET_PROFILE_PIC";
     public static String MESSAGE = "MESSAGE";
-    public static String EVENT_REQUEST= "EVENT_REQUEST";
+    public static String SEND_EVENT_REQUEST= "SEND_EVENT_REQUEST";
+    public static String GET_EVENT_REQUESTS= "GET_EVENT_REQUESTS";
+    public static String EVENT_REQUEST_RECEIVED= "EVENT_REQUEST_RECEIVED";
+    public static String GET_FRIENDS= "GET_FRIENDS";
+    public static String FOOD = "Food";
+    public static String MOVIE = "Movie";
+    public static String MEETING = "Meeting";
+    public static String CONCERT = "Concert";
+    public static String WORKSHOP = "Workshop";
+    public static String FESTIVAL = "Festival";
+    public static String TRAVELING = "Traveling";
+    public static String HANGOUT = "Hangout";
 }

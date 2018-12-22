@@ -24,6 +24,8 @@ import android.widget.TableLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -68,15 +70,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.getTabAt(1).setIcon(R.drawable.friends_icon);
         tabLayout.getTabAt(2).setIcon(R.drawable.memories_icon);
 
-        //Get All Users
-        List<String> data = Splash.databaseAdapter.getData();
-        SendRequest sendRequest = new SendRequest();
-        sendRequest.execute(Constatnts.GET_ALL_USERS, data.get(1));
-
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
+
+
+        Intent intent = getIntent();
+        String activity_name = "";
+        if(intent.hasExtra("activity_name")){
+            activity_name = intent.getExtras().getString("activity_name");
+        }
+        if(activity_name.equals("login_activity") || activity_name.equals("register_activity")) {
+            //Get All Users
+            List<String> data = Splash.databaseAdapter.getData();
+            SendRequest getAllUsers = new SendRequest();
+            getAllUsers.execute(Constatnts.GET_ALL_USERS, data.get(1));
+        }
 
 
 
@@ -90,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(getApplication(), result, Toast.LENGTH_LONG).show();
         }
     };
+
+
 
     @Override
     protected void onResume()
@@ -114,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
         }
+
         return true;
     }
 

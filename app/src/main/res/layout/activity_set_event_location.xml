@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_height = "match_parent"
+    android:layout_width="match_parent">
+
+        <AutoCompleteTextView
+            android:layout_alignParentTop="true"
+            android:id="@+id/map_searchBox_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Enter address..." />
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/map_searchBox_id"
+        android:layout_alignParentBottom="true"
+        tools:context=".SetEventLocation" />
+
+    <Button
+        android:background="@drawable/ic_right_arrow"
+        android:id="@+id/map_next_btn"
+        android:layout_width="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="40dp"/>
+
+</RelativeLayout>
+

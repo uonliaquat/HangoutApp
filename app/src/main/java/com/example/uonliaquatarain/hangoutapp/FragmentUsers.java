@@ -57,7 +57,6 @@ public class FragmentUsers extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
         List<String> name = new ArrayList<>();
         List<String> username = new ArrayList<>();
         List<String> photo = new ArrayList<>();
@@ -69,8 +68,10 @@ public class FragmentUsers extends Fragment {
         outState.putStringArrayList("user_name_list", (ArrayList<String>) name);
         outState.putStringArrayList("user_username_list", (ArrayList<String>) username);
         outState.putStringArrayList("user_photo_list", (ArrayList<String>) photo);
+        super.onSaveInstanceState(outState);
 
     }
+
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

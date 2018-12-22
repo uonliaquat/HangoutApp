@@ -50,11 +50,6 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
         final View view = LayoutInflater.from(context).inflate(R.layout.item_friend, viewGroup, false);
         final ViewHolderFriend viewHolder = new ViewHolderFriend(view);
 
-        //Dialog init
-//        dialog = new Dialog(context);
-//        dialog.setContentView(R.layout.dialog_user);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        Button profile_btn = (Button) dialog.findViewById(R.id.dialog_viewprofileBtn_id);
 
         viewHolder.item_friend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,36 +83,10 @@ public class RecyclerViewAdapterFragmentFriends extends RecyclerView.Adapter<Rec
                     }
                 }
 
-//                TextView dialog_name = (TextView) dialog.findViewById(R.id.dialog_name_id);
-//                TextView dialog_username = (TextView) dialog.findViewById(R.id.dialog_username_id);
-//                ImageView dialog_photo = (ImageView) dialog.findViewById(R.id.dialog_image_id);
-//                dialog_name.setText(friends.get(viewHolder.getAdapterPosition()).getNAME());
-//                dialog_username.setText(friends.get(viewHolder.getAdapterPosition()).getUSERNAME());
-//                dialog_photo.setImageDrawable(viewHolder.photo.getDrawable());
-//                item_position = viewHolder.getAdapterPosition();
-//                dialog.show();
             }
         });
 
 
-//        profile_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ImageView imageView = (ImageView) dialog.findViewById(R.id.dialog_image_id);
-//                dialog.dismiss();
-//                Bitmap bm = convertImageViewToBitmap(imageView);
-//                Intent intent = new Intent(context, UserProfile.class);
-//                intent.putExtra("name", friends.get(item_position).getNAME());
-//                intent.putExtra("photo", bm);
-//
-//                Pair[] pairs = new Pair[2];
-//                pairs[0] = new Pair<View, String>(viewHolder.name ,"name_transition");
-//                pairs[1] = new Pair<View, String>(viewHolder.photo ,"profilePic_transition");
-//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context, pairs);
-//
-//                context.startActivity(intent, options.toBundle());
-//            }
-//        });
 
 
         return viewHolder ;

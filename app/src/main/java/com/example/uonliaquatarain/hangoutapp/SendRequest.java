@@ -11,15 +11,17 @@ import java.net.Socket;
 public class SendRequest extends AsyncTask<String, Void, Void> {
 
 
-    public static Socket socket;
+
     public static PrintWriter writer;
     public static String SERVER_IP = "10.211.55.3"; //10.0.2.2
-    public static int SERVER_PORT = 54000;
+    public static int SERVER_PORT = 54000 ;
     public static JSONObject jsonObject;
+    public static Socket socket = null;
+
     @Override
     protected Void doInBackground(String... voids) {
         try {
-
+            socket.setSoTimeout(10000);
             jsonObject = new JSONObject();
             String method;
             method = voids[0];
@@ -55,17 +57,25 @@ public class SendRequest extends AsyncTask<String, Void, Void> {
                 jsonObject.put("username_receiver", voids[2]);
                 jsonObject.put("message", voids[3]);
             }
-            else if(method == Constatnts.EVENT_REQUEST){
+            else if(method == Constatnts.SEND_EVENT_REQUEST){
                 jsonObject.put("username", voids[1]);
                 jsonObject.put("username_receiver", voids[2]);
                 jsonObject.put("message", voids[3]);
                 jsonObject.put("date", voids[4]);
                 jsonObject.put("time", voids[5]);
+                jsonObject.put("place", voids[6]);
+                jsonObject.put("latlng", voids[7]);
             }
-
+            else if(method == Constatnts.GET_FRIENDS){
+                jsonObject.put("username", voids[1]);
+            }
+            else if(method == Constatnts.GET_EVENT_REQUESTS){
+                jsonObject.put("username", voids[1]);
+            }
 
             socket = new Socket(SERVER_IP, SERVER_PORT);
             writer = new PrintWriter(socket.getOutputStream());
+
             writer.write(jsonObject.toString());
             writer.flush();
 

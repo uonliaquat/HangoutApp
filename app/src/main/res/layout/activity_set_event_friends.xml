@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundfragment"
+    android:orientation="vertical"
+    tools:context=".SetEventFriends">
+
+    <TextView
+        android:id="@+id/selectyourrfriends_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select your friends!"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#fff"/>
+
+    <android.support.v4.view.ViewPager
+        android:layout_below="@id/selectyourrfriends_text"
+        android:id="@+id/even_planner_viewpager_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
+    <Button
+        android:background="@drawable/ic_right_arrow"
+        android:id="@+id/set_event_friends_btn"
+        android:layout_width="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="40dp"/>
+
+
+
+
+</RelativeLayout>

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +31,13 @@ public class Events extends AppCompatActivity {
 
         eventModels = new ArrayList<>();
         eventModels.add(new EventModel(R.drawable.food, "Food", "Enjoy Food With your friends and family!"));
-        eventModels.add(new EventModel(R.drawable.movie, "Movie", "Enjoy Movie With your friends and family"));
+        eventModels.add(new EventModel(R.drawable.movie, "Movie", "Enjoy Movie With your friends and family!"));
         eventModels.add(new EventModel(R.drawable.meeting, "Meeting", "Plan a meeting!"));
-        eventModels.add(new EventModel(R.drawable.concert, "Concert", "Enjoy live concert with your friends and family"));
-        eventModels.add(new EventModel(R.drawable.workshop, "Workshop", "Gather your friends for a workshop"));
-        eventModels.add(new EventModel(R.drawable.festival, "Festival", "Go to a festival"));
-        eventModels.add(new EventModel(R.drawable.traveling, "Traveling", "Plan a trip"));
-        eventModels.add(new EventModel(R.drawable.hangout, "Hangout", "Hangout with you friends"));
+        eventModels.add(new EventModel(R.drawable.concert, "Concert", "Enjoy live concert with your friends and family!"));
+        eventModels.add(new EventModel(R.drawable.workshop, "Workshop", "Gather your friends for a workshop!"));
+        eventModels.add(new EventModel(R.drawable.festival, "Festival", "Go to a festival!"));
+        eventModels.add(new EventModel(R.drawable.traveling, "Traveling", "Plan a trip!"));
+        eventModels.add(new EventModel(R.drawable.hangout, "Hangout", "Hangout with you friends!"));
 
         eventAdapter = new EventAdapter(eventModels, this);
         viewPager = findViewById(R.id.event_viewpager);
@@ -111,7 +110,7 @@ public class Events extends AppCompatActivity {
                        break;
 
                }
-                Intent intent = new Intent(Events.this, EventPlanner.class);
+                Intent intent = new Intent(Events.this, SetEventFriends.class);
                 intent.putExtra("event", event);
                 startActivity(intent);
             }

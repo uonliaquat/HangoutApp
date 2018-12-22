@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <RelativeLayout
+           android:background="#2323"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/imageView_event_request"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/textViewTitle_eventRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/imageView_event_request"
+                android:text="Apple MacBook Air Core i5 5th Gen - (8 GB/128 GB SSD/Mac OS Sierra)"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000000" />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:text="Location"
+                android:id="@+id/check_location"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_map_localization"
+                android:layout_toRightOf="@id/imageView_event_request"
+                android:layout_below="@id/textViewTitle_eventRequest"
+                android:background="@drawable/button_background"/>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/imageView_event_request"
+                android:layout_below="@id/check_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:backgroundTint="@color/cpb_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Accept"
+                    android:id="@+id/accept_event_request"
+                    android:background="@drawable/button_background"/>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:backgroundTint="@color/cpb_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Reject"
+                    android:id="@+id/rej_event_request"
+                    android:background="@drawable/button_background"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

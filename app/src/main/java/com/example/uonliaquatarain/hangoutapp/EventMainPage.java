@@ -51,5 +51,13 @@ public class EventMainPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        eventRequests_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventMainPage.this, EventRequests.class);
+                startActivity(intent);
+            }
+        });
     }
 }

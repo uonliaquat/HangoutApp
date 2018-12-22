@@ -31,7 +31,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.google.android.gms.common.api.Response;
-import com.google.android.gms.common.images.ImageRequest;
 
 import java.util.List;
 
@@ -80,10 +79,10 @@ public class CustomNotification  {
         }
         else if(method == Constatnts.FRIEND_REQUEST_ACCEPTED){
             message = sender_information.get(1) + " has accepted you Friend Request!";
-            intent.putExtra("sender_name", sender_information.get(1));
-            intent.putExtra("sender_username", sender_information.get(2));
-            intent.putExtra("sender_pic_url", sender_information.get(3));
-            intent.putExtra(Constatnts.FRIEND_REQUEST, Constatnts.FRIEND_REQUEST);
+//            intent.putExtra("sender_name", sender_information.get(1));
+//            intent.putExtra("sender_username", sender_information.get(2));
+//            intent.putExtra("sender_pic_url", sender_information.get(3));
+//            intent.putExtra(Constatnts.FRIEND_REQUEST, Constatnts.FRIEND_REQUEST);
         }
         else if(method == Constatnts.MESSAGE){
             intent = new Intent(context,ChatUI.class);
@@ -91,41 +90,20 @@ public class CustomNotification  {
             intent.putExtra("username", sender_information.get(2));
             intent.putExtra(Constatnts.MESSAGE, Constatnts.MESSAGE);
         }
-        else if(method == Constatnts.EVENT_REQUEST){
-            intent = new Intent(context,ChatUI.class);
+        else if(method == Constatnts.EVENT_REQUEST_RECEIVED){
+            intent = new Intent(context,EventRequests.class);
             message = sender_information.get(1) + " is asking you for " + sender_information.get(5) + " on " +
-                    sender_information.get(6) + " at " + sender_information.get(7);
-//            intent.putExtra("username", sender_information.get(2));
-//            intent.putExtra(Constatnts.MESSAGE, Constatnts.MESSAGE);
+                    sender_information.get(6) + " at " + sender_information.get(7) + " at " + sender_information.get(8) ;
+            intent.putExtra("event_message", message);
+            intent.putExtra("latlng", sender_information.get(9));
+            intent.putExtra("event_name", sender_information.get(5));
         }
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.custom_notification);
-        remoteViews.setImageViewResource(R.id.custom_notification_image,R.drawable.defaultpic_icon);
         remoteViews.setTextViewText(R.id.custom_notification_message, message);
-
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-//         View view = inflater.inflate(R.layout.custom_notification, null, false);
-//        final ImageView imageView = (ImageView) view.findViewById(R.id.custom_notification_image);
-//        new Handler(Looper.getMainLooper()).post(new Runnable() {
-//            @Override
-//            public void run() {
-//                RequestOptions requestOptions = new RequestOptions();
-//                requestOptions.placeholder(R.drawable.defaultpic_icon);
-//                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-//                requestOptions.error(R.drawable.defaultpic_icon);
-//
-//                Glide.with(context)
-//                        .setDefaultRequestOptions(requestOptions)
-//                        .asBitmap()
-//                        .load(sender_information.get(2)).into(imageView);
-//            }
-//        });
-//
-
-
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.friends_icon)

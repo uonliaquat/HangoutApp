@@ -101,12 +101,15 @@ public class ChatUI extends AppCompatActivity {
                     if (charArray[j] == 'm' && charArray[j + 1] == 'e' && charArray[j + 2] == ':') {
                         j = j + 2;
                         isMe = true;
-                    } else if (charArray[j] == 'f' && charArray[j] == 'r' && charArray[j] == 'i' && f_msg.charAt(j) == 'e'
-                            && charArray[j] == 'n' && charArray[j] == 'd' && charArray[j] == ':') {
-                        isMe = false;
-                        j = j + 6;
-                    } else {
-                        f_msg = f_msg + charArray[j];
+                    }
+                    else if(charArray.length > 5) {
+                        if (charArray[j] == 'f' && charArray[j + 1] == 'r' && charArray[j + 2] == 'i' && charArray[j + 3] == 'e'
+                                && charArray[j + 4] == 'n' && charArray[j + 5] == 'd' && charArray[j + 6] == ':') {
+                            isMe = false;
+                            j = j + 6;
+                        } else {
+                            f_msg = f_msg + charArray[j];
+                        }
                     }
                 }
                 if (isMe) {
@@ -119,9 +122,9 @@ public class ChatUI extends AppCompatActivity {
                 }
                 messageAdapter.notifyDataSetChanged();
 
-                if(!isVisible()){
-                    recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-                }
+            }
+            if(!isVisible()){
+                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
             }
         }
     }
@@ -132,5 +135,13 @@ public class ChatUI extends AppCompatActivity {
         int positionOfLastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
         int itemCount = recyclerView.getAdapter().getItemCount();
         return (positionOfLastVisibleItem >= itemCount);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ChatUI.this, MainActivity.class);
+        intent.putExtra("activity_name", "chat_ui");
+        startActivity(intent);
     }
 }

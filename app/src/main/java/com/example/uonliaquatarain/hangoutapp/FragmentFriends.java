@@ -89,23 +89,24 @@ public class FragmentFriends extends Fragment {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String name = intent.getExtras().getString("name");
-            String username = intent.getExtras().getString( "username");
-            String pic_url = intent.getExtras().getString("pic_url");
+            List<String> name = intent.getStringArrayListExtra(Constatnts.GET_FRIENDS + "names");
+            List<String> username = intent.getStringArrayListExtra(Constatnts.GET_FRIENDS + "usernames");
+            List<String> pictures = intent.getStringArrayListExtra(Constatnts.GET_FRIENDS + "pictures");
 
             //Set users in Friend List
-            friends.add(new User(name, username, pic_url));
+            for(int i = 0; i < name.size(); i++){
+                friends.add(new User(name.get(i), username.get(i), pictures.get(i)));
+            }
             RecyclerViewAdapterFragmentFriends recyclerViewAdapterFragmentFriends = new RecyclerViewAdapterFragmentFriends(getContext(), friends);
             recyclerView.setAdapter(recyclerViewAdapterFragmentFriends);
         }
     };
 
-
-
     @Override
     public void onResume() {
         super.onResume();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(Constatnts.FRIEND_REQUEST_ACCEPTED));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(Constatnts.GET_FRIENDS));
     }
 
     @Override

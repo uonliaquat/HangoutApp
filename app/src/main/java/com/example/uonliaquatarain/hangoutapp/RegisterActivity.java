@@ -100,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Splash.databaseAdapter.insertData(str_name, str_username, 1);
 
                 Intent intent1 = new Intent(RegisterActivity.this, MainActivity.class);
+                intent1.putExtra("activity_name", "register_activity");
                 startActivity(intent1);
             }
         }

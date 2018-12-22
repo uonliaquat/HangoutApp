@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 Splash.databaseAdapter.set_isActive(str_username, 0);
                 Splash.databaseAdapter.set_isActive(str_username, 1);
                 Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                intent1.putExtra("activity_name", "login_activity");
                 startActivity(intent1);
             }
         }

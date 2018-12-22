@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="60dp"
+        android:background="#232323"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Select Date and Time"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/dialog_dateTime_setDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_date"
+            android:drawablePadding="20dp"
+            android:padding="15dp"
+            android:text="Set Date"
+            android:textAlignment="textStart" />
+
+        <Button
+            android:id="@+id/dialog_dateTime_setTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:drawableLeft="@drawable/ic_time"
+            android:drawablePadding="20dp"
+            android:padding="15dp"
+            android:text="Set Time"
+            android:textAlignment="textStart" />
+
+        <Button
+            android:id="@+id/dialog_dateTime_sendRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_send_event_request"
+            android:drawablePadding="20dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:text="Send Request" />
+    </LinearLayout>
+
+
+</RelativeLayout>
