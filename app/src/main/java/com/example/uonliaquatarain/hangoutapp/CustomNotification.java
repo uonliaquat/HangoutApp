@@ -93,10 +93,16 @@ public class CustomNotification  {
         else if(method == Constatnts.EVENT_REQUEST_RECEIVED){
             intent = new Intent(context,EventRequests.class);
             message = sender_information.get(1) + " is asking you for " + sender_information.get(5) + " on " +
-                    sender_information.get(6) + " at " + sender_information.get(7) + " at " + sender_information.get(8) ;
+                    sender_information.get(6) + " at " + sender_information.get(7) + " at " + sender_information.get(8);
             intent.putExtra("event_message", message);
             intent.putExtra("latlng", sender_information.get(9));
             intent.putExtra("event_name", sender_information.get(5));
+            intent.putExtra("event_id", sender_information.get(10));
+        }
+        else if(method.equals(Constatnts.EVENT_REQUEST_ACCEPTED)){
+            intent = new Intent(context,EventRequests.class);
+            message = sender_information.get(1) + " has accepted your request for " + sender_information.get(5) + " on " +
+                    sender_information.get(6) + " at " + sender_information.get(7) + " at " + sender_information.get(8);
         }
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

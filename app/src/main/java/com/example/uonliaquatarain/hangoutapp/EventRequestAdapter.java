@@ -1,5 +1,6 @@
 package com.example.uonliaquatarain.hangoutapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
 
     private Context context;
     private List<EventRequestItem> eventRequestItemList;
+    public static ProgressDialog progressDialog;
 
     public EventRequestAdapter(Context context, List<EventRequestItem> eventRequestItemList) {
         this.context = context;
@@ -39,6 +41,20 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 Intent intent = new Intent(context, SetEventLocation.class);
                 intent.putExtra("latlng", latLng.toString());
                 context.startActivity(intent);
+            }
+        });
+
+        eventRequestViewHolder.accept_request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> data = Splash.databaseAdapter.getData();
+                SendRequest sendRequest = new SendRequest();
+                sendRequest.execute(Constatnts.EVENT_REQUEST_ACCEPTED, data.get(1), eventRequestItemList.get(eventRequestViewHolder.getAdapterPosition()).getEvent_id());
+                progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Accepting Request");
+                progressDialog.setMessage("Please wait while we accept event request");
+//                progressDialog.show();
+
             }
         });
 

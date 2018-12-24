@@ -1,6 +1,9 @@
 package com.example.uonliaquatarain.hangoutapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -73,6 +77,12 @@ public class UserProfile extends AppCompatActivity {
             name.setText(name_str);
         }
 
+        if(isMyProfile){
+            List<String> data = Splash.databaseAdapter.getData();
+            SendRequest sendRequest = new SendRequest();
+            sendRequest.execute(Constatnts.GET_PROFILE_PIC, data.get(1));
+        }
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +128,29 @@ public class UserProfile extends AppCompatActivity {
                 //Reject Friend Request
             }
         });
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(Constatnts.GET_PROFILE_PIC);
+            Glide.with(getApplicationContext()).load(result).into(image);
+        }
+    };
+
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        LocalBroadcastManager.getInstance(UserProfile.this).registerReceiver(broadcastReceiver, new IntentFilter(Constatnts.GET_PROFILE_PIC));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(UserProfile.this).unregisterReceiver(broadcastReceiver);
+        super.onPause();
     }
 
     @Override

@@ -207,10 +207,13 @@ public class GetResponse extends Service {
                 //Add event in event Request List
                 String message = sender_information.get(1) + " is asking you for " + sender_information.get(5) + " on " +
                         sender_information.get(6) + " at " + sender_information.get(7) + " at " + sender_information.get(8) ;
-//                in.setAction(Constatnts.EVENT_REQUEST_RECEIVED);
-//                in.putExtra("message", message);
-//                in.putExtra("latlng", sender_information.get(9));
-//                in.putExtra("event_name", sender_information.get(5));
+
+            }
+            else if(sender_information.get(4).equals(Constatnts.EVENT_REQUEST_ACCEPTED)){
+                CustomNotification customNotification = new CustomNotification(getApplicationContext());
+                customNotification.notifyThis(sender_information, Constatnts.EVENT_REQUEST_ACCEPTED);
+//                in.setAction(Constatnts.EVENT_REQUEST_ACCEPTED);
+//                in.putExtra(Constatnts.EVENT_REQUEST_ACCEPTED, msg_received);
 
 
             }
@@ -318,6 +321,11 @@ public class GetResponse extends Service {
             in.putStringArrayListExtra(Constatnts.GET_FRIENDS + "usernames", (ArrayList<String>) username_list);
             in.putStringArrayListExtra(Constatnts.GET_FRIENDS + "pictures", (ArrayList<String>) pictureUrl_list);
 
+            //Get Profile Pic
+            List<String> data = Splash.databaseAdapter.getData();
+            SendRequest getFriends = new SendRequest();
+            getFriends.execute(Constatnts.GET_PROFILE_PIC, data.get(1));
+
         }
         else if(Constatnts.SEND_FRIEND_REQUEST == SendRequest.jsonObject.getString("method")){
             in.setAction(Constatnts.SEND_FRIEND_REQUEST);
@@ -332,6 +340,9 @@ public class GetResponse extends Service {
         else if(Constatnts.GET_PROFILE_PIC == SendRequest.jsonObject.getString("method")){
             in.setAction(Constatnts.GET_PROFILE_PIC);
             in.putExtra(Constatnts.GET_PROFILE_PIC, msg_received);
+//            List<String> data = Splash.databaseAdapter.getData();
+//            SendRequest getFriends = new SendRequest();
+//            getFriends.execute(Constatnts.GET_MEMORY, data.get(1));
 
         }
         else if(Constatnts.SEND_EVENT_REQUEST == SendRequest.jsonObject.getString("method")){
@@ -348,7 +359,8 @@ public class GetResponse extends Service {
             List<String> time = new ArrayList<>();
             List<String> location = new ArrayList<>();
             List<String> latlng = new ArrayList<>();
-            String eventCreator = "", eventName = "", Date = "", Time = "", Location = "", Latlng = "";
+            List<String> event_id = new ArrayList<>();
+            String eventCreator = "", eventName = "", Date = "", Time = "", Location = "", Latlng = "", Event_id = "";
             while(msg.charAt(i) != '*'){
                 if(msg.charAt(i) == ':' && msg.charAt(i + 1) == ':'){
                     if(check == 0) {
@@ -374,6 +386,10 @@ public class GetResponse extends Service {
                     else if(check == 5){
                         latlng.add(Latlng);
                         Latlng = "";
+                    }
+                    else if(check == 6){
+                        event_id.add(Event_id);
+                        Event_id = "";
                     }
                     check++;
                     i = i+2;
@@ -401,6 +417,9 @@ public class GetResponse extends Service {
                 else if(check == 5){
                     Latlng = Latlng + String.valueOf(msg.charAt(i));
                 }
+                else if(check == 6){
+                    Event_id = Event_id + String.valueOf(msg.charAt(i));
+                }
                 i++;
             }
 
@@ -411,6 +430,157 @@ public class GetResponse extends Service {
             in.putStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "time", (ArrayList<String>) time);
             in.putStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "location", (ArrayList<String>) location);
             in.putStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "latlng", (ArrayList<String>) latlng);
+            in.putStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "event_id", (ArrayList<String>) event_id);
+
+
+        }
+        else if(Constatnts.EVENT_REQUEST_ACCEPTED == SendRequest.jsonObject.getString("method")){
+            in.setAction(Constatnts.EVENT_REQUEST_ACCEPTED);
+            in.putExtra(Constatnts.EVENT_REQUEST_ACCEPTED, msg_received);
+
+        }
+        else if(Constatnts.SAVE_MEMORY == SendRequest.jsonObject.getString("method")){
+            in.setAction(Constatnts.SAVE_MEMORY);
+            in.putExtra(Constatnts.SAVE_MEMORY, msg_received);
+
+        }
+        else if(Constatnts.GET_MEMORY == SendRequest.jsonObject.getString("method")){
+            int i = 3;
+            int check = 0;
+            List<String> name = new ArrayList<>();
+            List<String> username = new ArrayList<>();
+            List<String> image_url = new ArrayList<>();
+            List<String> memory_url = new ArrayList<>();
+            String _name = "", _username = "", _image_url = "", _memory_url = "";
+            while(msg.charAt(i) != '*'){
+                if(msg.charAt(i) == ':' && msg.charAt(i + 1) == ':'){
+                    if(check == 0) {
+                        name.add(_name);
+                        _name = "";
+                    }
+                    else if(check == 1){
+                        username.add(_username);
+                        _username = "";
+                    }
+                    else if(check == 2){
+                        image_url.add(_image_url);
+                        _image_url = "";
+                    }
+                    else if(check == 3){
+                        memory_url.add(_memory_url);
+                        _memory_url = "";
+                    }
+                    check++;
+                    i = i+2;
+                }
+                if(msg.charAt(i) == '/' && msg.charAt(i + 1) == '/' && msg.charAt(i + 2) == '/'){
+                    memory_url.add(_memory_url);
+                    _memory_url = "";
+                    check = 0;
+                    i = i + 3;
+                }
+                if(check == 0){
+                    _name = _name + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 1){
+                    _username = _username + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 2){
+                    _image_url = _image_url + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 3){
+                    _memory_url = _memory_url + String.valueOf(msg.charAt(i));
+                }
+                i++;
+            }
+            memory_url.add(_memory_url);
+            in.setAction(Constatnts.GET_MEMORY);
+            in.putStringArrayListExtra(Constatnts.GET_MEMORY + "name", (ArrayList<String>) name);
+            in.putStringArrayListExtra(Constatnts.GET_MEMORY + "username", (ArrayList<String>) username);
+            in.putStringArrayListExtra(Constatnts.GET_MEMORY + "image_url", (ArrayList<String>) image_url);
+            in.putStringArrayListExtra(Constatnts.GET_MEMORY + "memory_url", (ArrayList<String>) memory_url);
+
+        }
+        else if(Constatnts.GET_PENDING_EVENTS == SendRequest.jsonObject.getString("method")){
+            int i = 3;
+            int check = 0;
+            List<String> event_creator = new ArrayList<>();
+            List<String> event_name = new ArrayList<>();
+            List<String> date = new ArrayList<>();
+            List<String> time = new ArrayList<>();
+            List<String> location = new ArrayList<>();
+            List<String> latlng = new ArrayList<>();
+            List<String> event_id = new ArrayList<>();
+            String eventCreator = "", eventName = "", Date = "", Time = "", Location = "", Latlng = "", Event_id = "";
+            while(msg.charAt(i) != '*'){
+                if(msg.charAt(i) == ':' && msg.charAt(i + 1) == ':'){
+                    if(check == 0) {
+                        event_creator.add(eventCreator);
+                        eventCreator = "";
+                    }
+                    else if(check == 1){
+                        event_name.add(eventName);
+                        eventName = "";
+                    }
+                    else if(check == 2){
+                        date.add(Date);
+                        Date = "";
+                    }
+                    else if(check == 3){
+                        time.add(Time);
+                        Time = "";
+                    }
+                    else if(check == 4){
+                        location.add(Location);
+                        Location = "";
+                    }
+                    else if(check == 5){
+                        latlng.add(Latlng);
+                        Latlng = "";
+                    }
+                    else if(check == 6){
+                        event_id.add(Event_id);
+                        Event_id = "";
+                    }
+                    check++;
+                    i = i+2;
+                }
+                if(msg.charAt(i) == '/' && msg.charAt(i + 1) == '/' && msg.charAt(i + 2) == '/'){
+                    Latlng = "";
+                    check = 0;
+                    i = i + 3;
+                }
+                if(check == 0){
+                    eventCreator = eventCreator + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 1){
+                    eventName = eventName + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 2){
+                    Date = Date + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 3){
+                    Time = Time + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 4){
+                    Location = Location + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 5){
+                    Latlng = Latlng + String.valueOf(msg.charAt(i));
+                }
+                else if(check == 6){
+                    Event_id = Event_id + String.valueOf(msg.charAt(i));
+                }
+                i++;
+            }
+            in.setAction(Constatnts.GET_PENDING_EVENTS);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "event_creator", (ArrayList<String>) event_creator);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "event_name", (ArrayList<String>) event_name);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "date", (ArrayList<String>)date);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "time", (ArrayList<String>) time);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "location", (ArrayList<String>) location);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "latlng", (ArrayList<String>) latlng);
+            in.putStringArrayListExtra(Constatnts.GET_PENDING_EVENTS + "event_id", (ArrayList<String>) event_id);
 
         }
 

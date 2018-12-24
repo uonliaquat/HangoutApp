@@ -21,7 +21,9 @@ public class Constatnts {
     public static String MESSAGE = "MESSAGE";
     public static String SEND_EVENT_REQUEST= "SEND_EVENT_REQUEST";
     public static String GET_EVENT_REQUESTS= "GET_EVENT_REQUESTS";
+    public static String EVENT_REQUEST_ACCEPTED= "EVENT_REQUEST_ACCEPTED";
     public static String EVENT_REQUEST_RECEIVED= "EVENT_REQUEST_RECEIVED";
+    public static String GET_PENDING_EVENTS= "GET_PENDING_EVENTS";
     public static String GET_FRIENDS= "GET_FRIENDS";
     public static String FOOD = "Food";
     public static String MOVIE = "Movie";
@@ -31,4 +33,6 @@ public class Constatnts {
     public static String FESTIVAL = "Festival";
     public static String TRAVELING = "Traveling";
     public static String HANGOUT = "Hangout";
+    public static String SAVE_MEMORY = "SAVE_MEMORY";
+    public static String GET_MEMORY = "GET_MEMORY";
 }

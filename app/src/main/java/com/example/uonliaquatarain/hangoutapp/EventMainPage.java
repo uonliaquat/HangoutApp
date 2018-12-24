@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class EventMainPage extends AppCompatActivity {
 
@@ -47,6 +46,7 @@ public class EventMainPage extends AppCompatActivity {
         createEvent_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(EventMainPage.this, Events.class);
                 startActivity(intent);
             }
@@ -55,7 +55,17 @@ public class EventMainPage extends AppCompatActivity {
         eventRequests_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(EventMainPage.this, EventRequests.class);
+                startActivity(intent);
+            }
+        });
+
+        upcomingEvents_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(EventMainPage.this, UpcomingEvents.class);
                 startActivity(intent);
             }
         });

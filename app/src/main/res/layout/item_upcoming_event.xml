@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="30dp"
+        app:cardPreventCornerOverlap="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+
+            <ImageView
+                android:id="@+id/event_image_id"
+                android:src="@drawable/defaultpic_icon"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+                <TextView
+                android:textColor="#262626"
+                android:layout_below="@id/event_image_id"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:text="Food"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:id="@+id/event_title_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/upcoming_event_check_location"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/event_details"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:paddingLeft="20dp"
+                android:text="Check Location"
+                android:paddingRight="20dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round"
+                android:textColor="#fff"
+            />
+
+            <Button
+                android:id="@+id/partners"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/upcoming_event_check_location"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:paddingLeft="20dp"
+                android:text="Partners"
+                android:paddingRight="20dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round"
+                android:textColor="#fff"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/event_details"
+                android:layout_marginTop="40dp"
+                android:layout_below="@id/event_title_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Creator:"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:layout_marginLeft="12dp"
+                        android:id="@+id/pending_event_creator_name"
+                        android:textStyle="italic"
+                        android:layout_marginTop="3dp"
+                        android:text="Aon Liaquat"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Location:"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:layout_marginLeft="4dp"
+                        android:id="@+id/pending_event_location"
+                        android:textStyle="italic"
+                        android:layout_marginTop="3dp"
+                        android:text="Lahore"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Date:"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:layout_marginLeft="35dp"
+                        android:id="@+id/pending_event_date"
+                        android:textStyle="italic"
+                        android:layout_marginTop="3dp"
+                        android:text="date"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="Time:"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/pending_event_time"
+                        android:textStyle="italic"
+                        android:layout_marginTop="3dp"
+                        android:text="Aon Liaquat"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

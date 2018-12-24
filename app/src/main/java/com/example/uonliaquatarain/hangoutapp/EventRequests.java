@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -31,10 +33,14 @@ public class EventRequests extends AppCompatActivity {
     private double longitude;
     private  double latitude;
     private LatLng latLng;
+    private String event_id;
+    private TextView noEventRequestText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_requests);
+
+        noEventRequestText = (TextView) findViewById(R.id.noEventRequestText);
 
         eventRequestItems = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.event_request_recyclerView);
@@ -51,6 +57,8 @@ public class EventRequests extends AppCompatActivity {
             latlng_str = intent.getExtras().getString("latlng");
             event_name = intent.getExtras().getString("event_name");
             event_message = intent.getExtras().getString("event_message");
+            event_id = intent.getExtras().getString("event_id");
+
             AddEvent();
         }
         else{
@@ -65,7 +73,7 @@ public class EventRequests extends AppCompatActivity {
 
         LatLng latLng = getLatLng(latlng_str, event_name);
 
-        eventRequestItems.add(new EventRequestItem(latLng, event_message, image_id));
+        eventRequestItems.add(new EventRequestItem(latLng, event_message, image_id, event_id));
         EventRequestAdapter eventRequestAdapter = new EventRequestAdapter(getApplicationContext(), eventRequestItems);
         recyclerView.setAdapter(eventRequestAdapter);
     }
@@ -125,21 +133,33 @@ public class EventRequests extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            noEventRequestText.setVisibility(View.GONE);
             List<String> event_creator= intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "event_creator");
             List<String> event_name = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "event_name");
             List<String> date = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "date");
             List<String> time = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS+ "time");
             List<String> location = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "location");
             List<String> latlng = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "latlng");
+            List<String> event_id = intent.getStringArrayListExtra(Constatnts.GET_EVENT_REQUESTS + "event_id");
 
             //Set event request in recycler view
             for(int i = 0; i < event_creator.size(); i++){
                 LatLng latLng = getLatLng(latlng.get(i), event_name.get(i));
                 String msg = event_creator.get(i) + " has asked you for " + event_name.get(i) + " on " + date.get(i) + " at " + time.get(i) + " at " + location.get(i);
-                eventRequestItems.add(new EventRequestItem(latLng, msg, image_id));
+                eventRequestItems.add(new EventRequestItem(latLng, msg, image_id, event_id.get(i)));
             }
             EventRequestAdapter eventRequestAdapter = new EventRequestAdapter(getApplicationContext(), eventRequestItems);
             recyclerView.setAdapter(eventRequestAdapter);
+
+        }
+    };
+
+
+    private BroadcastReceiver eventRequestAccepted = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(), intent.getExtras().getString(Constatnts.EVENT_REQUEST_ACCEPTED), Toast.LENGTH_SHORT).show();
+            EventRequestAdapter.progressDialog.dismiss();
 
         }
     };
@@ -149,11 +169,13 @@ public class EventRequests extends AppCompatActivity {
     {
         super.onResume();
         LocalBroadcastManager.getInstance(EventRequests.this).registerReceiver(broadcastReceiver, new IntentFilter(Constatnts.GET_EVENT_REQUESTS));
+        LocalBroadcastManager.getInstance(EventRequests.this).registerReceiver(eventRequestAccepted, new IntentFilter(Constatnts.EVENT_REQUEST_ACCEPTED));
     }
 
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(EventRequests.this).unregisterReceiver(broadcastReceiver);
+        LocalBroadcastManager.getInstance(EventRequests.this).unregisterReceiver(eventRequestAccepted);
         super.onPause();
     }
 

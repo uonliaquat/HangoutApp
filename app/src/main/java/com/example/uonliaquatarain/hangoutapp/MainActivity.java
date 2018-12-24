@@ -20,10 +20,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBar actionBar;
     private  NavigationView navigationView;
     public static FragmentFriends fragmentFriends;
+    public static FragmentMemories fragmentMemories;
+    private ImageView userPic;
+    private TextView name, username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //ADD FRAGMENTS
         fragmentFriends = new FragmentFriends();
+        fragmentMemories = new FragmentMemories(getApplicationContext());
         viewPagerAdapter.AddFragment(new FragmentUsers(), "");
         viewPagerAdapter.AddFragment(fragmentFriends, "");
-        viewPagerAdapter.AddFragment(new FragmentMemories(), "");
+        viewPagerAdapter.AddFragment(fragmentMemories, "");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -75,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
 
+        userPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_pic);
+        name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_userName);
+        username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username);
+
 
         Intent intent = getIntent();
         String activity_name = "";
@@ -86,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             List<String> data = Splash.databaseAdapter.getData();
             SendRequest getAllUsers = new SendRequest();
             getAllUsers.execute(Constatnts.GET_ALL_USERS, data.get(1));
+            name.setText(data.get(0));
+            username.setText(data.get(1));
         }
 
 
@@ -101,6 +114,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     };
 
+    private BroadcastReceiver broadcastReceiver_profile_pic = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(Constatnts.GET_PROFILE_PIC);
+            Glide.with(getApplicationContext()).load(result).into(userPic);
+        }
+    };
+
+
 
 
     @Override
@@ -108,11 +130,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
         LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(broadcastReceiver, new IntentFilter(Constatnts.SEND_FRIEND_REQUEST));
+        LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(broadcastReceiver_profile_pic, new IntentFilter(Constatnts.GET_PROFILE_PIC));
     }
 
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(MainActivity.this).unregisterReceiver(broadcastReceiver);
+        LocalBroadcastManager.getInstance(MainActivity.this).unregisterReceiver(broadcastReceiver_profile_pic);
         super.onPause();
     }
 
